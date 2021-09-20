@@ -21,7 +21,7 @@ const s3PathFor = (fileName) => {
     r = r.substring(process.env.DROP_FILE_PREFIX.length, r.length)
   }
   r = `${process.env.S3_PREFIX || ""}/${r}`
-  cosnole.log({
+  console.log({
     r
   })
   return r;
