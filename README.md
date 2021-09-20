@@ -24,6 +24,7 @@ jobs:
         uses: koraykoska/s3-upload-github-action@master
         env:
           FILE: ./releases/
+          DROP_FILE_PREFIX: ./releases/
           S3_ENDPOINT: 'ams3.digitaloceanspaces.com'
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
           S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}

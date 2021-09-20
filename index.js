@@ -9,6 +9,14 @@ const s3 = new aws.S3({
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
 });
 
+const s3PathFor = (filename) => {
+  let r = `${process.env.S3_PREFIX || ""}/${path.normalize(fileName)}`
+  if (process.env.DROP_FILE_PREFIX && r.indexOf(process.env.DROP_FILE_PREFIX) == 0) {
+    r = r.substring(process.env.DROP_FILE_PREFIX.length, r.length)
+  }
+  return r;
+}
+
 const uploadFile = (fileName) => {
   if (fs.lstatSync(fileName).isDirectory()) {
     fs.readdirSync(fileName).forEach((file) => {
@@ -20,7 +28,7 @@ const uploadFile = (fileName) => {
     // Setting up S3 upload parameters
     const params = {
       Bucket: process.env.S3_BUCKET,
-      Key: `${process.env.S3_PREFIX || ""}/${path.normalize(fileName)}`,
+      Key: s3PathFor(fileName),
       Body: fileContent,
     };
     const acl = process.env.S3_ACL;
