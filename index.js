@@ -9,7 +9,7 @@ const s3 = new aws.S3({
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
 });
 
-const s3PathFor = (filename) => {
+const s3PathFor = (fileName) => {
   let r = `${process.env.S3_PREFIX || ""}/${path.normalize(fileName)}`
   if (process.env.DROP_FILE_PREFIX && r.indexOf(process.env.DROP_FILE_PREFIX) == 0) {
     r = r.substring(process.env.DROP_FILE_PREFIX.length, r.length)
