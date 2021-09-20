@@ -46,6 +46,7 @@ const uploadFile = (fileName) => {
       Key: s3PathFor(fileName),
       Body: fileContent,
       ContentType: mimeTypeFor(fileName) || "application/octet-stream",
+      CacheControl: "public, max-age=31536000, immutable",
     };
     const acl = process.env.S3_ACL;
     if (acl) {
