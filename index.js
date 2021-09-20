@@ -11,10 +11,19 @@ const s3 = new aws.S3({
 
 const s3PathFor = (fileName) => {
   let r = path.normalize(fileName)
+  console.log({
+    fileName,
+    r,
+    DROP_FILE_PREFIX: process.env.DROP_FILE_PREFIX,
+    S3_PREFIX: process.env.S3_PREFIX
+  })
   if (process.env.DROP_FILE_PREFIX && r.indexOf(process.env.DROP_FILE_PREFIX) == 0) {
     r = r.substring(process.env.DROP_FILE_PREFIX.length, r.length)
   }
-  r = `${process.env.S3_PREFIX || ""}/r`
+  r = `${process.env.S3_PREFIX || ""}/${r}`
+  cosnole.log({
+    r
+  })
   return r;
 }
 
