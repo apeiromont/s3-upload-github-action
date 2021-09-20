@@ -1,6 +1,7 @@
 const aws = require("aws-sdk");
 const fs = require("fs");
 const path = require("path");
+const mime = require('mime-types');
 
 const spacesEndpoint = new aws.Endpoint(process.env.S3_ENDPOINT);
 const s3 = new aws.S3({
@@ -27,6 +28,10 @@ const s3PathFor = (fileName) => {
   return r;
 }
 
+const mimeTypeFor = (fileName) => {
+  return mime.lookup(fileName)
+}
+
 const uploadFile = (fileName) => {
   if (fs.lstatSync(fileName).isDirectory()) {
     fs.readdirSync(fileName).forEach((file) => {
@@ -40,6 +45,7 @@ const uploadFile = (fileName) => {
       Bucket: process.env.S3_BUCKET,
       Key: s3PathFor(fileName),
       Body: fileContent,
+      ContentType: mimeTypeFor(fileName) || "application/octet-stream",
     };
     const acl = process.env.S3_ACL;
     if (acl) {
